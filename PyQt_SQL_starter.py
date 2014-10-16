@@ -1,6 +1,8 @@
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+from SQLController import *
+#from DisplayWidget import *
 
 class MainWindow(QMainWindow):
     """A Simple window"""
@@ -11,15 +13,22 @@ class MainWindow(QMainWindow):
         #create actions
         self.open_database = QAction("Open Database", self)
         self.close_database = QAction("Close Database", self)
+        self.find_products = QAction("Find Products", self)
+        self.show_products = QAction("Show Products", self)
 
         #add menu bar
         self.menu = QMenuBar()
         self.database_toolbar = QToolBar()
 
-        #add actions to menu bar
-        self.database_menu = self.menu.addMenu("database")
+        #add database actions to menu bar
+        self.database_menu = self.menu.addMenu("Database")
         self.database_menu.addAction(self.open_database)
         self.database_menu.addAction(self.close_database)
+
+        #add product actions to menu bar
+        self.products_menu = self.menu.addMenu("Product")
+        self.products_menu.addAction(self.find_products)
+        self.products_menu.addAction(self.show_products)
 
         #add actions to tool_bar
         self.database_toolbar.addAction(self.open_database)
@@ -38,6 +47,9 @@ class MainWindow(QMainWindow):
     def open_connection(self):
         path = QFileDialog.getOpenFileName()
         print(path)
+        self.conn = SQLConnection(path)
+        ok = self.conn.open_database()
+        print(ok)
 
     def close_connection(self):
         print("Close Connection")
