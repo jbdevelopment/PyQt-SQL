@@ -2,7 +2,7 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from SQLController import *
-#from DisplayWidget import *
+from DisplayWidget import *
 
 class MainWindow(QMainWindow):
     """A Simple window"""
@@ -43,6 +43,7 @@ class MainWindow(QMainWindow):
         #connections
         self.open_database.triggered.connect(self.open_connection)
         self.close_database.triggered.connect(self.close_connection)
+        self.find_products.triggered.connect(self.display_products)
 
     def open_connection(self):
         path = QFileDialog.getOpenFileName()
@@ -53,6 +54,13 @@ class MainWindow(QMainWindow):
 
     def close_connection(self):
         print("Close Connection")
+
+    def display_products(self):
+        if not hasattr(self, "display_widget"):
+            self.display_widget = DisplayWidget()
+        self.setCentralWidget(self.display_widget)
+        query = self.conn.find_product_by_number((1,))
+        self.display_widget.display_results_layout(query)
 
 def main():
     application = QApplication(sys.argv)

@@ -7,6 +7,7 @@ class DisplayWidget():
         self.stacked_layout = QStackedLayout()
         self.setLayout(self.stacked_layout)
         self.model = None
+        self.display_results_layout
 
     def display_results_layout(self):
         self.results_table = QTableView()

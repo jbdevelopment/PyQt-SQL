@@ -29,5 +29,9 @@ class SQLConnection():
            such as close window/quit application"""
         self.close_database()
     
-    def find_products_by_number():
-        pass
+    def find_products_by_number(self,values):
+        query = QSqlQuery
+        query.prepare("SELECT * FROM Products WHERE ProductID = ?")
+        query.addBindValue(values[0])
+        query.exec_()
+        return query
