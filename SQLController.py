@@ -1,9 +1,15 @@
+try:
+    from PyQt4.QtCore import *
+    from PyQt4.QtGui import *
+    from PyQt4.QtSql import *
+except:
+    from PyQt5.QtCore import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtSql import *
+
+
 import sys
 import sqlite3
-from PyQt4.QtSql import *
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-
 
 class SQLConnection():
 
@@ -30,7 +36,7 @@ class SQLConnection():
         self.close_database()
     
     def find_products_by_number(self,values):
-        query = QSqlQuery
+        query = QSqlQuery()
         query.prepare("SELECT * FROM Products WHERE ProductID = ?")
         query.addBindValue(values[0])
         query.exec_()
