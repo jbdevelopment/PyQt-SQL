@@ -1,6 +1,11 @@
+try:
+    from PyQt4.QtCore import *
+    from PyQt4.QtGui import *
+except:
+    from PyQt5.QtCore import *
+    from PyQt5.QtGui import *
 import sys
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+
 from SQLController import *
 from DisplayWidget import *
 
@@ -29,6 +34,8 @@ class MainWindow(QMainWindow):
         self.products_menu = self.menu.addMenu("Product")
         self.products_menu.addAction(self.find_products)
         self.products_menu.addAction(self.show_products)
+        self.find_products.setEnabled(False)
+        self.show_products.setEnabled(False)
 
         #add actions to tool_bar
         self.database_toolbar.addAction(self.open_database)
@@ -44,23 +51,34 @@ class MainWindow(QMainWindow):
         self.open_database.triggered.connect(self.open_connection)
         self.close_database.triggered.connect(self.close_connection)
         self.find_products.triggered.connect(self.display_products)
+        self.show_products.triggered.connect(self.display_products)
+
+        #keyboard shortcuts
+        self.open_database.setShortcut('Ctrl+O')
+        self.close_database.setShortcut('Ctrl+Shift+C')
+        self.find_products.setShortcut('Ctrl+F')
+        self.show_products.setShortcut('Ctrl+Shift+F')
 
     def open_connection(self):
         path = QFileDialog.getOpenFileName()
-        print(path)
-        self.conn = SQLConnection(path)
-        ok = self.conn.open_database()
-        print(ok)
+        self.connection = SQLConnection(path)
+        ok = self.connection.open_database()
+        print("Database connection established: {0}".format(ok))
+        self.products_menu.setEnabled(True)
 
     def close_connection(self):
-        print("Close Connection")
+        self.connection.close_database()
+        print("Database Closed")
+        self.find_products.setEnabled(False)
+        self.show_products.setEnabled(False)
+        
 
     def display_products(self):
         if not hasattr(self, "display_widget"):
             self.display_widget = DisplayWidget()
         self.setCentralWidget(self.display_widget)
-        query = self.conn.find_product_by_number((1,))
-        self.display_widget.display_results_layout(query)
+        query = self.connection.find_products_by_number((1,))
+        self.display_widget.show_results(query)
 
 def main():
     application = QApplication(sys.argv)
