@@ -64,7 +64,8 @@ class MainWindow(QMainWindow):
         self.connection = SQLConnection(path)
         ok = self.connection.open_database()
         print("Database connection established: {0}".format(ok))
-        self.products_menu.setEnabled(True)
+        self.find_products.setEnabled(True)
+        self.show_products.setEnabled(True)
 
     def close_connection(self):
         self.connection.close_database()
