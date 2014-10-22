@@ -34,7 +34,8 @@ class MainWindow(QMainWindow):
         self.products_menu = self.menu.addMenu("Product")
         self.products_menu.addAction(self.find_products)
         self.products_menu.addAction(self.show_products)
-        self.products_menu.setEnabled(False)
+        self.find_products.setEnabled(False)
+        self.show_products.setEnabled(False)
 
         #add actions to tool_bar
         self.database_toolbar.addAction(self.open_database)
@@ -68,7 +69,9 @@ class MainWindow(QMainWindow):
     def close_connection(self):
         self.connection.close_database()
         print("Database Closed")
-        self.products_menu.setEnabled(False)
+        self.find_products.setEnabled(False)
+        self.show_products.setEnabled(False)
+        
 
     def display_products(self):
         if not hasattr(self, "display_widget"):
