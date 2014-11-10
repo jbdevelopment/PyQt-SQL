@@ -4,7 +4,9 @@ try:
 except:
     from PyQt5.QtCore import *
     from PyQt5.QtGui import *
+    
 import sys
+import pdb
 
 from SQLController import *
 from DisplayWidget import *
@@ -34,6 +36,8 @@ class MainWindow(QMainWindow):
         self.products_menu = self.menu.addMenu("Product")
         self.products_menu.addAction(self.find_products)
         self.products_menu.addAction(self.show_products)
+
+        #make products menu items inactive
         self.find_products.setEnabled(False)
         self.show_products.setEnabled(False)
 
@@ -60,6 +64,7 @@ class MainWindow(QMainWindow):
         self.show_products.setShortcut('Ctrl+Shift+F')
 
     def open_connection(self):
+        #pdb.set_trace() 
         path = QFileDialog.getOpenFileName()
         self.connection = SQLConnection(path)
         ok = self.connection.open_database()

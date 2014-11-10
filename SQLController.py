@@ -22,7 +22,7 @@ class SQLConnection():
             self.close_database()
             
         self.db = QSqlDatabase.addDatabase("QSQLITE")
-        self.db.setDatabaseName(self.path)
+        self.db.setDatabaseName(self.path )
         opened_ok = self.db.open()
         return opened_ok
 
